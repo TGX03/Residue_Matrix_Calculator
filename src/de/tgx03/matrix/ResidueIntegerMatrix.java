@@ -84,6 +84,38 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
         return new SolvedMatrix(steps.toString(), clone);
     }
 
+    public ResidueIntegerMatrix solve() {
+        ResidueIntegerMatrix clone = this.clone();
+        int offset = 0;
+        int column = 0;
+
+        while (column + offset < clone.y && column < clone.x) {
+
+            // Set non-zero value to diagonal position
+            if (clone.matrix[column][column + offset].value == 0L) {
+                boolean done = false;
+                for (int line = column; line < clone.y && !done; line++) {
+                    if (clone.matrix[line][column + offset].value != 0L) {
+                        clone.swapLines(line, column);
+                        done = true;
+                    }
+                }
+                if (!done) {
+                    offset++;
+                    break;
+                }
+            }
+
+            // Set current column below the pivot to zero
+            for (int line = column + 1; line < clone.y; line++) {
+                ResidueClassInteger factor = clone.findFactor(clone.matrix[line][column + offset], clone.matrix[column][column + offset]);
+                clone.addLines(column, line, factor);
+            }
+            column++;
+        }
+        return clone;
+    }
+
     private void swapLines(int i, int j) {
         if (i == j || i >= this.y || j >= this.y) {
             throw new IllegalArgumentException("Invalid line numbers");
