@@ -111,4 +111,8 @@ public class ResidueClassInteger extends Number implements Comparable<ResidueCla
     public ResidueClassInteger clone() {
         return new ResidueClassInteger(this.value, this.residue);
     }
+
+    public int hashCode() {
+        return Long.hashCode(this.value);
+    }
 }
