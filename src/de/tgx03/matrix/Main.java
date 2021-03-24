@@ -1,5 +1,8 @@
 package de.tgx03.matrix;
 
+/**
+ * A basic example of how the matrices can be used
+ */
 public class Main {
 
     public static void main(String[] args) {

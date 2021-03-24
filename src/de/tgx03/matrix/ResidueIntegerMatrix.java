@@ -1,13 +1,25 @@
 package de.tgx03.matrix;
 
+import javax.imageio.spi.ImageReaderWriterSpi;
 import java.io.Serializable;
+import java.util.Arrays;
 
+/**
+ * A class representing a matrix consisting of residue classes
+ */
 public class ResidueIntegerMatrix implements Cloneable, Serializable {
 
     private final ResidueClassInteger[][] matrix;
     private final int x;
     private final int y;
 
+    /**
+     * Initializes a new matrix with a given width and a given set of entries
+     * The height gets calculated automatically
+     * Throws an error if the matrix cannot be completely filled
+     * @param width The width of this matrix
+     * @param ints All the entries of this matrix
+     */
     public ResidueIntegerMatrix(int width, ResidueClassInteger... ints) {
         this.x = width;
         this.y = ints.length / width;
@@ -24,6 +36,14 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
         }
     }
 
+    /**
+     * Initializes a new matrix rom a given set of integers, a given residue and a given width
+     * The height gets calculated automatically
+     * Throws an error if not enough entries to fill the matrix are provided
+     * @param width The width of this matrix
+     * @param residue The residue class of this matrix
+     * @param values All the values this matrix shall hold
+     */
     public ResidueIntegerMatrix(int width, long residue, long... values) {
         this.x = width;
         this.y = values.length / width;
@@ -40,12 +60,22 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
         }
     }
 
+    /**
+     * Creates a new empty matrix with given dimensions
+     * @param x The width of the matrix
+     * @param y The height of the matrix
+     */
     private ResidueIntegerMatrix(int x, int y) {
         this.matrix = new ResidueClassInteger[y][x];
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Executes the Gauss algorithm and returns a new matrix after the algorithm and the steps
+     * needed to create it
+     * @return A gaussed matrix and the steps taken to get it
+     */
     public SolvedMatrix gaussWithSteps() {
         ResidueIntegerMatrix clone = this.clone();
         StringBuilder steps = new StringBuilder();
@@ -84,6 +114,10 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
         return new SolvedMatrix(steps.toString(), clone);
     }
 
+    /**
+     * Uses the gauss algorithm to rearrange this matrix in steps and returns a new matrix of it
+     * @return The solved matrix
+     */
     public ResidueIntegerMatrix solve() {
         ResidueIntegerMatrix clone = this.clone();
         int offset = 0;
@@ -116,6 +150,11 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
         return clone;
     }
 
+    /**
+     * Swaps two lines in this matrix
+     * @param i The first line to be swapped
+     * @param j The second line to be swapped with the first
+     */
     private void swapLines(int i, int j) {
         if (i == j || i >= this.y || j >= this.y) {
             throw new IllegalArgumentException("Invalid line numbers");
@@ -125,6 +164,12 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
         matrix[j] = first;
     }
 
+    /**
+     * Adds a multiple of one line to another line
+     * @param source The line that a multiple of should be added to another line
+     * @param target The line the source line shall be added to
+     * @param factor How often the source line shall be added to the target
+     */
     private void addLines(int source, int target, ResidueClassInteger factor) {
         for (int i = 0; i < this.x; i++) {
             matrix[target][i] = matrix[target][i].add(matrix[source][i].multiply(factor));
@@ -184,7 +229,10 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
     public int hashCode() {
         return Arrays.deepHashCode(matrix);
     }
-    
+
+    /**
+     * A record holding a solved matrix and the steps taken to solve it
+     */
     public static record SolvedMatrix(String steps, ResidueIntegerMatrix matrix) {
     }
 }
