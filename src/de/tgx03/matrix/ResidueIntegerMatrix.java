@@ -172,6 +172,19 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
         return builder.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ResidueIntegerMatrix that = (ResidueIntegerMatrix) o;
+        return x == that.x && y == that.y && Arrays.deepEquals(matrix, that.matrix);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(matrix);
+    }
+    
     public static record SolvedMatrix(String steps, ResidueIntegerMatrix matrix) {
     }
 }
