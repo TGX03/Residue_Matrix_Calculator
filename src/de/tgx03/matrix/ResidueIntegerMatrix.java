@@ -118,8 +118,8 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
     @Override
     public ResidueIntegerMatrix clone() {
         ResidueIntegerMatrix clone = new ResidueIntegerMatrix(this.x, this.y);
-        for (int x = 0; x < this.x; x++) {
-            System.arraycopy(this.matrix[x], 0, clone.matrix[x], 0, this.y);
+        for (int y = 0; y < this.y; y++) {
+            System.arraycopy(this.matrix[y], 0, clone.matrix[y], 0, this.x);
         }
         return clone;
     }
