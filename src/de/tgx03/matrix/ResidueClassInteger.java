@@ -13,7 +13,8 @@ public class ResidueClassInteger extends Number implements Comparable<ResidueCla
 
     /**
      * Creates a new residue class integer
-     * @param value The value of this integer, must be lower than the residue
+     *
+     * @param value   The value of this integer, must be lower than the residue
      * @param residue The residue class ring this integer belongs to
      */
     public ResidueClassInteger(long value, long residue) {
@@ -26,6 +27,7 @@ public class ResidueClassInteger extends Number implements Comparable<ResidueCla
 
     /**
      * Adds to residue integers together and returns the correct result in this class
+     *
      * @param summand The other integer to add
      * @return The calculated result
      */
@@ -39,6 +41,7 @@ public class ResidueClassInteger extends Number implements Comparable<ResidueCla
 
     /**
      * Multiplies 2 residue integers and returns the result
+     *
      * @param factor The second factor
      * @return The product of both integers
      */
@@ -52,6 +55,7 @@ public class ResidueClassInteger extends Number implements Comparable<ResidueCla
 
     /**
      * Subtracts a residue integer from this one
+     *
      * @param subtrahend The subtrahend
      * @return The calculated result
      */
@@ -70,6 +74,7 @@ public class ResidueClassInteger extends Number implements Comparable<ResidueCla
      * "Divides" this integer by another integer
      * To achieve this, the multiplicative inverse of the given divisor is calculated
      * so that divisor² = 1 in this residue class
+     *
      * @param divisor The divisor to use
      * @return The calculated result
      */
