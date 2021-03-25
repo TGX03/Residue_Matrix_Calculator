@@ -72,6 +72,28 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
     }
 
     /**
+     * Returns the value stored at a specific place in this matrix
+     *
+     * @param x The x coordinate in this matrix
+     * @param y The y coordinate in this matrix
+     * @return The integer at that position
+     */
+    public long getValue(int x, int y) {
+        return this.matrix[y][x].value;
+    }
+
+    /**
+     * Returns the Residue Class at a given position in this matrix
+     *
+     * @param x The x coordinate in this matrix
+     * @param y The y coordinate in this matrix
+     * @return The residue integer at that position
+     */
+    public ResidueClassInteger get(int x, int y) {
+        return this.matrix[y][x];
+    }
+
+    /**
      * Executes the Gauss algorithm and returns a new matrix after the algorithm and the steps
      * needed to create it
      * @return A gaussed matrix and the steps taken to get it
