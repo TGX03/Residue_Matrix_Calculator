@@ -1,6 +1,5 @@
 package de.tgx03.matrix;
 
-import javax.imageio.spi.ImageReaderWriterSpi;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -17,8 +16,9 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
      * Initializes a new matrix with a given width and a given set of entries
      * The height gets calculated automatically
      * Throws an error if the matrix cannot be completely filled
+     *
      * @param width The width of this matrix
-     * @param ints All the entries of this matrix
+     * @param ints  All the entries of this matrix
      */
     public ResidueIntegerMatrix(int width, ResidueClassInteger... ints) {
         this.x = width;
@@ -40,9 +40,10 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
      * Initializes a new matrix rom a given set of integers, a given residue and a given width
      * The height gets calculated automatically
      * Throws an error if not enough entries to fill the matrix are provided
-     * @param width The width of this matrix
+     *
+     * @param width   The width of this matrix
      * @param residue The residue class of this matrix
-     * @param values All the values this matrix shall hold
+     * @param values  All the values this matrix shall hold
      */
     public ResidueIntegerMatrix(int width, long residue, long... values) {
         this.x = width;
@@ -62,6 +63,7 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
 
     /**
      * Creates a new empty matrix with given dimensions
+     *
      * @param x The width of the matrix
      * @param y The height of the matrix
      */
@@ -96,6 +98,7 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
     /**
      * Executes the Gauss algorithm and returns a new matrix after the algorithm and the steps
      * needed to create it
+     *
      * @return A gaussed matrix and the steps taken to get it
      */
     public SolvedMatrix gaussWithSteps() {
@@ -138,6 +141,7 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
 
     /**
      * Uses the gauss algorithm to rearrange this matrix in steps and returns a new matrix of it
+     *
      * @return The solved matrix
      */
     public ResidueIntegerMatrix solve() {
@@ -174,6 +178,7 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
 
     /**
      * Swaps two lines in this matrix
+     *
      * @param i The first line to be swapped
      * @param j The second line to be swapped with the first
      */
@@ -188,6 +193,7 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
 
     /**
      * Adds a multiple of one line to another line
+     *
      * @param source The line that a multiple of should be added to another line
      * @param target The line the source line shall be added to
      * @param factor How often the source line shall be added to the target
