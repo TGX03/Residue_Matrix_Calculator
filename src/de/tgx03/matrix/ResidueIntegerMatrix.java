@@ -2,6 +2,7 @@ package de.tgx03.matrix;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /**
  * A class representing a matrix consisting of residue classes
@@ -177,6 +178,58 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
     }
 
     /**
+     * Multiplies this matrix with a given vector and returns the resulting vector
+     *
+     * @param vector The vector to multiply this matrix with
+     * @return The resulting vector
+     */
+    public ResidueIntegerVector multiply(ResidueIntegerVector vector) {
+        if (vector.size() != this.x) {
+            throw new IllegalArgumentException("Vector must have the same number of entries as this matrix hast horizontal entries");
+        }
+        ResidueClassInteger[] result = new ResidueClassInteger[this.y];
+        final long residue = this.matrix[0][0].residue;
+        for (int line = 0; line < this.y; line++) {
+            ResidueClassInteger current = new ResidueClassInteger(0, residue);
+            for (int column = 0; column < this.matrix[line].length; column++) {
+                current = current.add(this.matrix[line][column]);
+            }
+            result[line] = current;
+        }
+        return new ResidueIntegerVector(result);
+    }
+
+    /**
+     * Multiplies this matrix with another matrix
+     * with this matrix being the left matrix
+     * and the matrix given as argument being the right matrix
+     * For this both matrices must be square and have the same dimensions
+     *
+     * @param matrix The second matrix to multiply this matrix with
+     * @return The resulting matrix
+     */
+    public ResidueIntegerMatrix multiply(ResidueIntegerMatrix matrix) {
+        if (this.x != matrix.y) {
+            throw new IllegalArgumentException("First matrix must have as many columns as the second matrix has lines");
+        }
+        ResidueIntegerMatrix result = new ResidueIntegerMatrix(matrix.x, this.y);
+        if (this.y >= matrix.x) {
+            IntStream.range(0, this.y).parallel().forEach(y -> {
+                for (int x = 0; x < matrix.x; x++) {
+                    result.matrix[y][x] = multiplyPosition(x, y, matrix);
+                }
+            });
+        } else {
+            IntStream.range(0, this.x).parallel().forEach(x -> {
+                for (int y = 0; y < matrix.y; y++) {
+                    result.matrix[y][x] = multiplyPosition(x, y, matrix);
+                }
+            });
+        }
+        return result;
+    }
+
+    /**
      * Swaps two lines in this matrix
      *
      * @param i The first line to be swapped
@@ -218,6 +271,23 @@ public class ResidueIntegerMatrix implements Cloneable, Serializable {
             current++;
         }
         return new ResidueClassInteger(current, residue);
+    }
+
+    /**
+     * Calculates the value which results during matrix multiplication
+     * at a specific point in the matrix
+     *
+     * @param x      The x coordinate in the resulting matrix
+     * @param y      The y coordinate in the resulting matrix
+     * @param matrix The other matrix
+     * @return The value calculated at that position
+     */
+    private ResidueClassInteger multiplyPosition(int x, int y, ResidueIntegerMatrix matrix) {
+        ResidueClassInteger result = new ResidueClassInteger(0, this.matrix[0][0].residue);
+        for (int i = 0; i < this.x; i++) {
+            result = result.add(this.matrix[y][i].multiply(matrix.matrix[i][x]));
+        }
+        return result;
     }
 
     @Override
