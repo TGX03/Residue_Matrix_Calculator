@@ -6,7 +6,7 @@ import java.util.Arrays;
 /**
  * A class representing a vector which operates inside a residue class
  */
-public class ResidueClassVector implements Cloneable, Serializable {
+public class ResidueIntegerVector implements Cloneable, Serializable {
 
     private final ResidueClassInteger[] vector;
 
@@ -15,7 +15,7 @@ public class ResidueClassVector implements Cloneable, Serializable {
      *
      * @param values The values this vector holds
      */
-    public ResidueClassVector(ResidueClassInteger... values) {
+    public ResidueIntegerVector(ResidueClassInteger... values) {
         vector = new ResidueClassInteger[values.length];
         System.arraycopy(values, 0, vector, 0, values.length);
     }
@@ -26,7 +26,7 @@ public class ResidueClassVector implements Cloneable, Serializable {
      * @param residue The residue class this vector is in
      * @param values  The values of this vector
      */
-    public ResidueClassVector(long residue, long... values) {
+    public ResidueIntegerVector(long residue, long... values) {
         vector = new ResidueClassInteger[values.length];
         for (int i = 0; i < vector.length; i++) {
             ResidueClassInteger current = new ResidueClassInteger(values[i], residue);
@@ -39,7 +39,7 @@ public class ResidueClassVector implements Cloneable, Serializable {
      *
      * @param size The size of the new vector
      */
-    private ResidueClassVector(int size) {
+    private ResidueIntegerVector(int size) {
         vector = new ResidueClassInteger[size];
     }
 
@@ -78,11 +78,11 @@ public class ResidueClassVector implements Cloneable, Serializable {
      * @param vector The other vector to add to
      * @return The resulting vector
      */
-    public ResidueClassVector add(ResidueClassVector vector) {
+    public ResidueIntegerVector add(ResidueIntegerVector vector) {
         if (this.vector.length != vector.vector.length) {
             throw new IllegalArgumentException("Vectors must have the same size to add them");
         }
-        ResidueClassVector result = new ResidueClassVector(this.vector.length);
+        ResidueIntegerVector result = new ResidueIntegerVector(this.vector.length);
         for (int i = 0; i < this.vector.length; i++) {
             result.vector[i] = this.vector[i].add(vector.vector[i]);
         }
@@ -97,7 +97,7 @@ public class ResidueClassVector implements Cloneable, Serializable {
      * @param vector The second vector to multiply with
      * @return The resulting vector
      */
-    public ResidueClassVector multiply(ResidueClassVector vector) {
+    public ResidueIntegerVector multiply(ResidueIntegerVector vector) {
         if (this.vector.length != vector.vector.length) {
             throw new IllegalArgumentException("Vectors must have the same size to add them");
         }
@@ -109,7 +109,7 @@ public class ResidueClassVector implements Cloneable, Serializable {
         first[first.length - 1] = this.vector[0];
         second[second.length - 1] = vector.vector[0];
 
-        ResidueClassVector result = new ResidueClassVector(this.vector.length);
+        ResidueIntegerVector result = new ResidueIntegerVector(this.vector.length);
 
         for (int i = 0; i < first.length; i++) {
             ResidueClassInteger minuend;
@@ -132,8 +132,8 @@ public class ResidueClassVector implements Cloneable, Serializable {
      * @param value The factor to apply to this vector
      * @return The resulting vector
      */
-    public ResidueClassVector multiply(ResidueClassInteger value) {
-        ResidueClassVector result = new ResidueClassVector(this.vector.length);
+    public ResidueIntegerVector multiply(ResidueClassInteger value) {
+        ResidueIntegerVector result = new ResidueIntegerVector(this.vector.length);
         for (int i = 0; i < this.vector.length; i++) {
             result.vector[i] = this.vector[i].multiply(value);
         }
@@ -164,15 +164,15 @@ public class ResidueClassVector implements Cloneable, Serializable {
         if (o == this) {
             return true;
         }
-        if (o instanceof ResidueClassVector vector) {
+        if (o instanceof ResidueIntegerVector vector) {
             return Arrays.equals(this.vector, vector.vector);
         }
         return false;
     }
 
     @Override
-    public ResidueClassVector clone() {
-        ResidueClassVector clone = new ResidueClassVector(this.vector.length);
+    public ResidueIntegerVector clone() {
+        ResidueIntegerVector clone = new ResidueIntegerVector(this.vector.length);
         System.arraycopy(this.vector, 0, clone.vector, 0, this.vector.length);
         return clone;
     }
